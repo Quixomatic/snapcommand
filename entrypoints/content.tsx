@@ -14,14 +14,19 @@ export default defineContentScript({
   matches: ['<all_urls>'],
   cssInjectionMode: 'ui',
   
-  async main(ctx) {
+  async main(ctx: any) {
     // Create UI container
     const ui = await createShadowRootUi(ctx, {
       name: 'snapcommand-ui',
       position: 'overlay',
-      onMount: (container) => {
-        const root = ReactDOM.createRoot(container);
-        root.render(
+      onMount: (container: HTMLElement) => {
+        // Create a root element inside the container
+        const root = document.createElement('div');
+        root.id = 'snapcommand-root';
+        container.appendChild(root);
+        
+        const reactRoot = ReactDOM.createRoot(root);
+        reactRoot.render(
           <CaptureProvider>
             <App />
           </CaptureProvider>

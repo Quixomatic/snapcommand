@@ -19,6 +19,8 @@ import {
   X
 } from 'lucide-react';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
+import { DialogTitle } from '@/components/ui/dialog';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { usePreferences } from '@/lib/storage/preferences';
@@ -123,6 +125,9 @@ export default function CommandMenu({
   return (
     <Dialog open onOpenChange={onClose}>
       <DialogContent className="p-0 max-w-2xl overflow-hidden">
+        <VisuallyHidden>
+          <DialogTitle>SnapCommand Menu</DialogTitle>
+        </VisuallyHidden>
         <Command className="rounded-lg shadow-lg">
           <div className="flex items-center border-b px-3">
             <Camera className="mr-2 h-4 w-4 shrink-0 opacity-50" />

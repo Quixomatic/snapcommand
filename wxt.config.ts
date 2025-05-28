@@ -1,7 +1,14 @@
 import { defineConfig } from 'wxt';
+import path from 'path';
 
 export default defineConfig({
   modules: ['@wxt-dev/module-react'],
+  alias: {
+    '@/components': path.resolve(__dirname, './components'),
+    '@/lib': path.resolve(__dirname, './lib'),
+    '@/styles': path.resolve(__dirname, './styles'),
+    '@/entrypoints': path.resolve(__dirname, './entrypoints'),
+  },
   manifest: {
     name: 'SnapCommand',
     description: 'Professional screenshot extension with command menu interface',
@@ -11,8 +18,21 @@ export default defineConfig({
       'storage',
       'contextMenus',
       'tabs',
+      'downloads'
+    ],
+    host_permissions: [
       '<all_urls>'
     ],
+    // Remove action popup to allow onClicked event
+    action: {
+      default_title: 'Open SnapCommand (Ctrl+Shift+S)',
+      default_icon: {
+        16: '/icon-16.png',
+        32: '/icon-32.png',
+        48: '/icon-48.png',
+        128: '/icon-128.png'
+      }
+    },
     commands: {
       'open-command-menu': {
         suggested_key: {
