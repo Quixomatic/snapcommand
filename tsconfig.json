@@ -18,7 +18,10 @@
       "noFallthroughCasesInSwitch": true,
       "baseUrl": ".",
       "paths": {
-        "@/*": ["./*"]
+        "@/components/*": ["./components/*"],
+        "@/lib/*": ["./lib/*"],
+        "@/styles/*": ["./styles/*"],
+        "@/entrypoints/*": ["./entrypoints/*"]
       }
     },
     "include": ["**/*.ts", "**/*.tsx"],
