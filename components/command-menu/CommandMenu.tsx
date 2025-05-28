@@ -6,7 +6,7 @@ import {
   MousePointer, 
   Square, 
   Code,
-  Grid3X3,
+  Grid3x3,
   Settings,
   Keyboard,
   History,
@@ -87,7 +87,7 @@ export default function CommandMenu({
       id: 'capture-tabs',
       label: 'All Open Tabs',
       description: 'Batch capture visible areas',
-      icon: Grid3X3,
+      icon: Grid3x3,
       shortcut: '⌘⇧A',
       action: () => {} // TODO: Implement batch capture
     }

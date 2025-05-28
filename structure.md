@@ -3,6 +3,7 @@ snapcommand/
 ├── package.json
 ├── tsconfig.json
 ├── wxt.config.ts
+├── vite.config.ts
 ├── .gitignore
 ├── README.md
 ├── entrypoints/
@@ -39,6 +40,8 @@ snapcommand/
 │   │   ├── cn.ts
 │   │   └── format.ts
 │   └── constants.ts
+├── types/
+│   └── snapdom.d.ts
 ├── styles/
 │   └── globals.css
 └── public/

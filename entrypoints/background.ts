@@ -1,4 +1,5 @@
 import { browser } from 'wxt/browser';
+import { defineBackground } from 'wxt/utils/define-background';
 
 export default defineBackground(() => {
   // Handle extension icon click
@@ -96,7 +97,8 @@ export default defineBackground(() => {
 
 async function captureVisibleTab(): Promise<string> {
   try {
-    const dataUrl = await browser.tabs.captureVisibleTab(null, {
+    // Call without parameters to capture the current window
+    const dataUrl = await browser.tabs.captureVisibleTab({
       format: 'png'
     });
     return dataUrl;

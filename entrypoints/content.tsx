@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { browser } from 'wxt/browser';
+import { defineContentScript } from 'wxt/utils/define-content-script';
+import { createShadowRootUi } from 'wxt/utils/content-script-ui/shadow-root';
 import CommandMenu from '@/components/command-menu/CommandMenu';
 import ElementSelector from '@/components/capture/ElementSelector';
 import DrawSelection from '@/components/capture/DrawSelection';

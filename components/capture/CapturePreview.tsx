@@ -225,7 +225,7 @@ export default function CapturePreview({ imageUrl, onClose }: CapturePreviewProp
             
             <div className="space-y-2">
               <Label htmlFor="format">Format</Label>
-              <Select value={format} onValueChange={(v: any) => setFormat(v)}>
+              <Select value={format} onValueChange={(v: 'png' | 'jpg' | 'webp') => setFormat(v)}>
                 <SelectTrigger id="format">
                   <SelectValue />
                 </SelectTrigger>

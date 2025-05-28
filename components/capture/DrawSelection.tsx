@@ -182,7 +182,7 @@ export default function DrawSelection({ onSelect, onCancel }: DrawSelectionProps
           }}
         >
           {/* Marching ants animation */}
-          <style jsx>{`
+          <style>{`
             @keyframes marching-ants {
               0% { background-position: 0 0, 0 0, 0 0, 0 0; }
               100% { background-position: 8px 0, 0 8px, -8px 0, 0 -8px; }

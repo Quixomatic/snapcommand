@@ -45,3 +45,5 @@ Thumbs.db
 *.zip
 *.crx
 *.pem
+
+package-lock.json
