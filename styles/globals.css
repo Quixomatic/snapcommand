@@ -2,6 +2,55 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Ensure shadow DOM root has proper styling context */
+#snapcommand-root {
+  @apply isolate;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  z-index: 2147483647 !important; /* Maximum z-index */
+  pointer-events: none;
+}
+
+/* When no modal is open, only specific elements should capture events */
+#snapcommand-root > * {
+  pointer-events: auto;
+}
+
+/* Dialog overlays should block background interactions */
+#snapcommand-root [data-radix-dialog-overlay] {
+  pointer-events: auto;
+}
+
+/* Dialog content should allow all interactions including scrolling */
+#snapcommand-root [data-radix-dialog-content] {
+  pointer-events: auto;
+  overflow: auto !important;
+}
+
+/* Command menu should allow scrolling */
+#snapcommand-root [cmdk-root] {
+  pointer-events: auto;
+  overflow: hidden;
+}
+
+#snapcommand-root [cmdk-list] {
+  overflow-y: auto !important;
+  /* Ensure wheel events work */
+  touch-action: auto !important;
+}
+
+/* Ensure all scrollable areas support wheel events */
+#snapcommand-root [data-radix-dialog-content],
+#snapcommand-root [cmdk-list],
+#snapcommand-root .overflow-auto,
+#snapcommand-root .overflow-y-auto {
+  touch-action: auto !important;
+  overscroll-behavior: contain !important;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -133,4 +182,43 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+}
+
+/* Radix UI Dropdown/Select styles - ensure they appear above modals */
+#snapcommand-root [data-radix-popper-content-wrapper] {
+  z-index: 1000 !important;
+}
+
+#snapcommand-root [data-radix-select-content] {
+  z-index: 1000 !important;
+}
+
+#snapcommand-root [data-radix-dropdown-menu-content] {
+  z-index: 1000 !important;
+}
+
+#snapcommand-root [data-radix-popover-content] {
+  z-index: 1000 !important;
+}
+
+/* Fallback for any dropdowns that might still render outside shadow DOM */
+[data-radix-popper-content-wrapper] {
+  z-index: 1000 !important;
+}
+
+[data-radix-select-content] {
+  z-index: 1000 !important;
+}
+
+[data-radix-dropdown-menu-content] {
+  z-index: 1000 !important;
+}
+
+[data-radix-popover-content] {
+  z-index: 1000 !important;
+}
+
+/* Toast styles */
+[data-sonner-toaster] {
+  z-index: 2147483647 !important;
 }

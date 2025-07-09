@@ -10,7 +10,7 @@ import {
   Edit2,
   Share2
 } from 'lucide-react';
-import { Dialog, DialogContent, DialogHeader } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -19,34 +19,41 @@ import { Slider } from '@/components/ui/slider';
 import { useToast } from '@/components/ui/use-toast';
 import { usePreferences } from '@/lib/storage/preferences';
 import { browser } from 'wxt/browser';
+import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
+import { useUsageStats } from '@/lib/storage/usage-stats';
+import TipFooter from '@/components/tip/TipFooter';
 
 interface CapturePreviewProps {
-  imageUrl: string;
+  imageUrl: string | { imageUrl: string; format: string };
   onClose: () => void;
 }
 
 export default function CapturePreview({ imageUrl, onClose }: CapturePreviewProps) {
   const { preferences, updatePreferences } = usePreferences();
   const { toast } = useToast();
+  const { shouldShowTip, dismissTip } = useUsageStats();
+  
+  // Handle both string and object formats for imageUrl
+  const actualImageUrl = typeof imageUrl === 'string' ? imageUrl : imageUrl.imageUrl;
+  const actualFormat = typeof imageUrl === 'string' ? preferences.format : imageUrl.format;
   
   const [filename, setFilename] = React.useState(generateFilename());
-  const [format, setFormat] = React.useState(preferences.format);
+  const [format, setFormat] = React.useState(actualFormat);
   const [quality, setQuality] = React.useState(preferences.quality);
   const [scale, setScale] = React.useState(100);
   const [copied, setCopied] = React.useState(false);
+  const [showTip, setShowTip] = React.useState(false);
   
   const imageRef = React.useRef<HTMLImageElement>(null);
+
+  React.useEffect(() => {
+    setShowTip(shouldShowTip);
+  }, [shouldShowTip]);
 
   React.useEffect(() => {
     // Auto-copy if preference is set
     if (preferences.copyToClipboard && preferences.showPreview) {
       handleCopy();
-    }
-    
-    // Auto-download if preference is set
-    if (preferences.autoDownload && !preferences.showPreview) {
-      handleDownload();
-      onClose();
     }
   }, []);
 
@@ -59,7 +66,7 @@ export default function CapturePreview({ imageUrl, onClose }: CapturePreviewProp
 
   async function handleCopy() {
     try {
-      const blob = await fetch(imageUrl).then(r => r.blob());
+      const blob = await fetch(actualImageUrl).then(r => r.blob());
       
       // For Chrome/Edge that support ClipboardItem
       if ('ClipboardItem' in window) {
@@ -68,7 +75,7 @@ export default function CapturePreview({ imageUrl, onClose }: CapturePreviewProp
         ]);
       } else {
         // Fallback: Copy data URL to clipboard
-        await navigator.clipboard.writeText(imageUrl);
+        await navigator.clipboard.writeText(actualImageUrl);
       }
       
       setCopied(true);
@@ -90,7 +97,7 @@ export default function CapturePreview({ imageUrl, onClose }: CapturePreviewProp
 
   async function handleDownload() {
     try {
-      let downloadUrl = imageUrl;
+      let downloadUrl = actualImageUrl;
       
       // Convert format if needed
       if (format !== 'png') {
@@ -100,7 +107,7 @@ export default function CapturePreview({ imageUrl, onClose }: CapturePreviewProp
         
         await new Promise((resolve) => {
           img.onload = resolve;
-          img.src = imageUrl;
+          img.src = actualImageUrl;
         });
         
         canvas.width = img.width;
@@ -148,9 +155,18 @@ export default function CapturePreview({ imageUrl, onClose }: CapturePreviewProp
     setScale(prev => Math.max(10, Math.min(200, prev + delta)));
   };
 
+  const handleTipDismiss = () => {
+    setShowTip(false);
+    dismissTip();
+  };
+
+
   return (
     <Dialog open onOpenChange={onClose}>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-hidden flex flex-col">
+        <VisuallyHidden>
+          <DialogTitle>Hidden Title</DialogTitle>
+        </VisuallyHidden>
         <DialogHeader className="flex-shrink-0">
           <div className="flex items-center justify-between">
             <h2 className="text-lg font-semibold">Screenshot Preview</h2>
@@ -173,7 +189,7 @@ export default function CapturePreview({ imageUrl, onClose }: CapturePreviewProp
           >
             <img
               ref={imageRef}
-              src={imageUrl}
+              src={actualImageUrl}
               alt="Screenshot preview"
               className="max-w-full h-auto shadow-lg"
             />
@@ -225,7 +241,7 @@ export default function CapturePreview({ imageUrl, onClose }: CapturePreviewProp
             
             <div className="space-y-2">
               <Label htmlFor="format">Format</Label>
-              <Select value={format} onValueChange={(v: 'png' | 'jpg' | 'webp') => setFormat(v)}>
+              <Select value={format} disabled>
                 <SelectTrigger id="format">
                   <SelectValue />
                 </SelectTrigger>
@@ -308,6 +324,13 @@ export default function CapturePreview({ imageUrl, onClose }: CapturePreviewProp
             </div>
           </div>
         </div>
+        
+        {/* Tip Footer */}
+        {showTip && (
+          <div className="-mx-6 -mb-6 mt-4">
+            <TipFooter onDismiss={handleTipDismiss} />
+          </div>
+        )}
       </DialogContent>
     </Dialog>
   );
