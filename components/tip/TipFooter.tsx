@@ -5,9 +5,10 @@ import { useUsageStats } from '@/lib/storage/usage-stats';
 
 interface TipFooterProps {
   onDismiss: () => void;
+  hideDismiss?: boolean;
 }
 
-export default function TipFooter({ onDismiss }: TipFooterProps) {
+export default function TipFooter({ onDismiss, hideDismiss = false }: TipFooterProps) {
   const { markTipShown } = useUsageStats();
 
   const handleKofiClick = () => {
@@ -61,14 +62,16 @@ export default function TipFooter({ onDismiss }: TipFooterProps) {
               Sponsor
             </Button>
             
-            <Button
-              size="sm"
-              variant="ghost"
-              onClick={handleDismiss}
-              className="text-xs p-1 h-8 w-8"
-            >
-              <X className="h-3 w-3" />
-            </Button>
+            {!hideDismiss && (
+              <Button
+                size="sm"
+                variant="ghost"
+                onClick={handleDismiss}
+                className="text-xs p-1 h-8 w-8"
+              >
+                <X className="h-3 w-3" />
+              </Button>
+            )}
           </div>
         </div>
       </div>

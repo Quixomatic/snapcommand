@@ -12,6 +12,7 @@ import PreferencesModal from "@/components/preferences/PreferencesModal";
 import KeyboardShortcutsModal from "@/components/shortcuts/KeyboardShortcutsModal";
 import CaptureHistoryModal from "@/components/history/CaptureHistoryModal";
 import HelpTipsModal from "@/components/help/HelpTipsModal";
+import AboutModal from "@/components/about/AboutModal";
 import { CaptureProvider } from "@/lib/capture/capture-context";
 import { PortalProvider } from "@/lib/utils/portal-provider";
 import { Toaster } from "@/components/ui/toaster";
@@ -98,6 +99,7 @@ function App() {
   const [showShortcuts, setShowShortcuts] = React.useState(false);
   const [showHistory, setShowHistory] = React.useState(false);
   const [showHelp, setShowHelp] = React.useState(false);
+  const [showAbout, setShowAbout] = React.useState(false);
   const { preferences, updatePreferences } = usePreferences();
 
   // Create a global modal manager that can be used anywhere
@@ -108,6 +110,7 @@ function App() {
       setShowShortcuts(false);
       setShowHistory(false);
       setShowHelp(false);
+      setShowAbout(false);
       setCaptureResult(null);
       setCaptureMode(null);
     },
@@ -117,6 +120,7 @@ function App() {
       setShowShortcuts(false);
       setShowHistory(false);
       setShowHelp(false);
+      setShowAbout(false);
       setCaptureResult(null);
       setCaptureMode(null);
       setShowCommandMenu(true);
@@ -127,6 +131,7 @@ function App() {
       setShowShortcuts(false);
       setShowHistory(false);
       setShowHelp(false);
+      setShowAbout(false);
       setCaptureResult(null);
       setCaptureMode(null);
       setShowPreferences(true);
@@ -137,6 +142,7 @@ function App() {
       setShowShortcuts(false);
       setShowHistory(false);
       setShowHelp(false);
+      setShowAbout(false);
       setCaptureResult(null);
       setCaptureMode(null);
       setShowShortcuts(true);
@@ -147,6 +153,7 @@ function App() {
       setShowShortcuts(false);
       setShowHistory(false);
       setShowHelp(false);
+      setShowAbout(false);
       setCaptureResult(null);
       setCaptureMode(null);
       setShowHistory(true);
@@ -157,9 +164,21 @@ function App() {
       setShowShortcuts(false);
       setShowHistory(false);
       setShowHelp(false);
+      setShowAbout(false);
       setCaptureResult(null);
       setCaptureMode(null);
       setShowHelp(true);
+    },
+    openAbout: () => {
+      setShowCommandMenu(false);
+      setShowPreferences(false);
+      setShowShortcuts(false);
+      setShowHistory(false);
+      setShowHelp(false);
+      setShowAbout(false);
+      setCaptureResult(null);
+      setCaptureMode(null);
+      setShowAbout(true);
     },
     startCapture: (mode: string) => {
       setShowCommandMenu(false);
@@ -167,6 +186,7 @@ function App() {
       setShowShortcuts(false);
       setShowHistory(false);
       setShowHelp(false);
+      setShowAbout(false);
       setCaptureResult(null);
       setCaptureMode(mode);
     },
@@ -467,6 +487,14 @@ function App() {
           const manager3 = (window as any).__snapcommandModalManager;
           if (manager3) manager3.startCapture('element');
           break;
+        case 'capture-selection':
+          const manager4 = (window as any).__snapcommandModalManager;
+          if (manager4) manager4.startCapture('draw');
+          break;
+        case 'capture-css':
+          const manager5 = (window as any).__snapcommandModalManager;
+          if (manager5) manager5.startCapture('css');
+          break;
       }
     };
 
@@ -698,6 +726,7 @@ function App() {
           onOpenShortcuts={() => modalManager.openShortcuts()}
           onOpenHistory={() => modalManager.openHistory()}
           onOpenHelp={() => modalManager.openHelp()}
+          onOpenAbout={() => modalManager.openAbout()}
         />
       )}
 
@@ -749,6 +778,12 @@ function App() {
 
       <HelpTipsModal
         open={showHelp}
+        onClose={() => modalManager.closeAll()}
+        onBackToMenu={() => modalManager.openCommandMenu()}
+      />
+
+      <AboutModal
+        open={showAbout}
         onClose={() => modalManager.closeAll()}
         onBackToMenu={() => modalManager.openCommandMenu()}
       />

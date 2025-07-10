@@ -99,24 +99,54 @@ export default defineBackground(() => {
       contexts: ["page", "image", "link"],
     });
 
+    // Command Menu option
     browser.contextMenus.create({
-      id: "snapcommand-element",
+      id: "snapcommand-menu",
       parentId: "snapcommand-capture",
-      title: "Capture this element",
+      title: "Open Command Menu",
       contexts: ["page", "image", "link"],
     });
 
     browser.contextMenus.create({
+      id: "snapcommand-separator1",
+      parentId: "snapcommand-capture",
+      type: "separator",
+      contexts: ["page", "image", "link"],
+    });
+
+    // Capture modes
+    browser.contextMenus.create({
       id: "snapcommand-visible",
       parentId: "snapcommand-capture",
-      title: "Capture visible area",
+      title: "Capture Visible Area",
       contexts: ["page"],
     });
 
     browser.contextMenus.create({
       id: "snapcommand-full",
       parentId: "snapcommand-capture",
-      title: "Capture full page",
+      title: "Capture Full Page",
+      contexts: ["page"],
+    });
+
+    browser.contextMenus.create({
+      id: "snapcommand-element",
+      parentId: "snapcommand-capture",
+      title: "Select Element",
+      contexts: ["page", "image", "link"],
+    });
+
+    browser.contextMenus.create({
+      id: "snapcommand-selection",
+      parentId: "snapcommand-capture",
+      title: "Draw Selection",
+      contexts: ["page"],
+    });
+
+    browser.contextMenus.create({
+      id: "snapcommand-css",
+      parentId: "snapcommand-capture",
+      title: "CSS Selector",
       contexts: ["page"],
     });
   });
@@ -140,9 +170,12 @@ export default defineBackground(() => {
     }
 
     const actionMap: Record<string, string> = {
-      "snapcommand-element": "capture-element",
+      "snapcommand-menu": "toggle-command-menu",
       "snapcommand-visible": "capture-visible",
-      "snapcommand-full": "capture-fullpage"
+      "snapcommand-full": "capture-fullpage",
+      "snapcommand-element": "capture-element",
+      "snapcommand-selection": "capture-selection",
+      "snapcommand-css": "capture-css"
     };
 
     const action = actionMap[info.menuItemId as string];

@@ -11,6 +11,7 @@ import {
   Keyboard,
   History,
   HelpCircle,
+  Info,
   Copy,
   Download,
   Eye,
@@ -38,6 +39,7 @@ interface CommandMenuProps {
   onOpenShortcuts: () => void;
   onOpenHistory: () => void;
   onOpenHelp: () => void;
+  onOpenAbout: () => void;
 }
 
 export default function CommandMenu({
@@ -51,6 +53,7 @@ export default function CommandMenu({
   onOpenShortcuts,
   onOpenHistory,
   onOpenHelp,
+  onOpenAbout,
 }: CommandMenuProps) {
   const [search, setSearch] = React.useState("");
   const { preferences, updatePreferences } = usePreferences();
@@ -160,7 +163,7 @@ export default function CommandMenu({
               {captureActions.map((action) => (
                 <Command.Item
                   key={action.id}
-                  value={action.label}
+                  value={`${action.label} capture modes screenshot`}
                   onSelect={action.action}
                   className="relative flex cursor-pointer items-center px-4 py-3 hover:bg-accent"
                 >
@@ -193,7 +196,7 @@ export default function CommandMenu({
             {/* Quick Settings */}
             <Command.Group heading="Quick Settings">
               <Command.Item
-                value="Copy to Clipboard"
+                value="Copy to Clipboard quick settings"
                 onSelect={() => {
                   const newCopyValue = !preferences.copyToClipboard;
                   const updates: any = { copyToClipboard: newCopyValue };
@@ -220,7 +223,7 @@ export default function CommandMenu({
               </Command.Item>
 
               <Command.Item
-                value="Auto Download"
+                value="Auto Download quick settings"
                 onSelect={() => {
                   const newDownloadValue = !preferences.autoDownload;
                   const updates: any = { autoDownload: newDownloadValue };
@@ -242,7 +245,7 @@ export default function CommandMenu({
               </Command.Item>
 
               <Command.Item
-                value="Show Preview"
+                value="Show Preview quick settings"
                 onSelect={() => {
                   // Prevent disabling if both copy and download are disabled
                   if (
@@ -278,7 +281,7 @@ export default function CommandMenu({
               {formatOptions.map((format) => (
                 <Command.Item
                   key={format.id}
-                  value={format.label}
+                  value={`${format.label} format image`}
                   onSelect={() =>
                     updatePreferences({ format: format.id as any })
                   }
@@ -314,7 +317,7 @@ export default function CommandMenu({
             {/* More Options */}
             <Command.Group heading="More Options">
               <Command.Item
-                value="Preferences"
+                value="Preferences more options settings"
                 onSelect={onOpenPreferences}
                 className="flex items-center px-4 py-2 hover:bg-accent"
               >
@@ -326,7 +329,7 @@ export default function CommandMenu({
               </Command.Item>
 
               <Command.Item
-                value="Keyboard Shortcuts"
+                value="Keyboard Shortcuts more options"
                 onSelect={onOpenShortcuts}
                 className="flex items-center px-4 py-2 hover:bg-accent"
               >
@@ -335,7 +338,7 @@ export default function CommandMenu({
               </Command.Item>
 
               <Command.Item
-                value="Capture History"
+                value="Capture History more options"
                 onSelect={onOpenHistory}
                 className="flex items-center px-4 py-2 hover:bg-accent"
               >
@@ -344,12 +347,21 @@ export default function CommandMenu({
               </Command.Item>
 
               <Command.Item
-                value="Help & Tips"
+                value="Help & Tips more options"
                 onSelect={onOpenHelp}
                 className="flex items-center px-4 py-2 hover:bg-accent"
               >
                 <HelpCircle className="mr-3 h-4 w-4" />
                 <span>Help & Tips</span>
+              </Command.Item>
+
+              <Command.Item
+                value="About more options"
+                onSelect={onOpenAbout}
+                className="flex items-center px-4 py-2 hover:bg-accent"
+              >
+                <Info className="mr-3 h-4 w-4" />
+                <span>About</span>
               </Command.Item>
             </Command.Group>
           </Command.List>
@@ -364,7 +376,6 @@ export default function CommandMenu({
                 <span>[{preferences.copyToClipboard ? "Copy ✓" : "Copy"}]</span>
                 <span>[Scale: {preferences.scale}x]</span>
               </div>
-              <span>⌘K to search</span>
             </div>
           </div>
           {showTip && <TipFooter onDismiss={() => {

@@ -269,8 +269,7 @@ export default function CapturePreview({ imageUrl, onClose }: CapturePreviewProp
           )}
 
           {/* Action buttons */}
-          <div className="flex items-center justify-between pt-2">
-            
+          <div className="flex items-center justify-end pt-2">
             <div className="flex gap-2">
               <Button
                 variant="outline"
