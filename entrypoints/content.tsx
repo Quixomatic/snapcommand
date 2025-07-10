@@ -13,6 +13,10 @@ import KeyboardShortcutsModal from "@/components/shortcuts/KeyboardShortcutsModa
 import CaptureHistoryModal from "@/components/history/CaptureHistoryModal";
 import HelpTipsModal from "@/components/help/HelpTipsModal";
 import AboutModal from "@/components/about/AboutModal";
+// Only import MockupMode in development
+const MockupMode = import.meta.env.DEV 
+  ? React.lazy(() => import("@/components/mockup/MockupMode"))
+  : null;
 import { CaptureProvider } from "@/lib/capture/capture-context";
 import { PortalProvider } from "@/lib/utils/portal-provider";
 import { Toaster } from "@/components/ui/toaster";
@@ -100,6 +104,7 @@ function App() {
   const [showHistory, setShowHistory] = React.useState(false);
   const [showHelp, setShowHelp] = React.useState(false);
   const [showAbout, setShowAbout] = React.useState(false);
+  const [showMockup, setShowMockup] = React.useState(false);
   const { preferences, updatePreferences } = usePreferences();
 
   // Create a global modal manager that can be used anywhere
@@ -111,6 +116,8 @@ function App() {
       setShowHistory(false);
       setShowHelp(false);
       setShowAbout(false);
+      setShowMockup(false);
+      setShowMockup(false);
       setCaptureResult(null);
       setCaptureMode(null);
     },
@@ -121,6 +128,7 @@ function App() {
       setShowHistory(false);
       setShowHelp(false);
       setShowAbout(false);
+      setShowMockup(false);
       setCaptureResult(null);
       setCaptureMode(null);
       setShowCommandMenu(true);
@@ -132,6 +140,7 @@ function App() {
       setShowHistory(false);
       setShowHelp(false);
       setShowAbout(false);
+      setShowMockup(false);
       setCaptureResult(null);
       setCaptureMode(null);
       setShowPreferences(true);
@@ -143,6 +152,7 @@ function App() {
       setShowHistory(false);
       setShowHelp(false);
       setShowAbout(false);
+      setShowMockup(false);
       setCaptureResult(null);
       setCaptureMode(null);
       setShowShortcuts(true);
@@ -154,6 +164,7 @@ function App() {
       setShowHistory(false);
       setShowHelp(false);
       setShowAbout(false);
+      setShowMockup(false);
       setCaptureResult(null);
       setCaptureMode(null);
       setShowHistory(true);
@@ -165,6 +176,7 @@ function App() {
       setShowHistory(false);
       setShowHelp(false);
       setShowAbout(false);
+      setShowMockup(false);
       setCaptureResult(null);
       setCaptureMode(null);
       setShowHelp(true);
@@ -176,6 +188,7 @@ function App() {
       setShowHistory(false);
       setShowHelp(false);
       setShowAbout(false);
+      setShowMockup(false);
       setCaptureResult(null);
       setCaptureMode(null);
       setShowAbout(true);
@@ -187,6 +200,7 @@ function App() {
       setShowHistory(false);
       setShowHelp(false);
       setShowAbout(false);
+      setShowMockup(false);
       setCaptureResult(null);
       setCaptureMode(mode);
     },
@@ -510,6 +524,29 @@ function App() {
     keybindingManager.updateKeybindings(preferences);
   }, [preferences]);
 
+  // Secret mockup mode activation (Ctrl+Shift+K) - Development only
+  React.useEffect(() => {
+    if (!import.meta.env.DEV) return;
+    
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Ctrl+Shift+K to toggle mockup mode
+      if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        setShowMockup(!showMockup);
+      }
+
+      // ESC to close mockup mode
+      if (e.key === 'Escape' && showMockup) {
+        setShowMockup(false);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [showMockup]);
+
 
 
 
@@ -797,6 +834,13 @@ function App() {
       />
       
       <Toaster />
+
+      {/* Secret Mockup Mode - Development Only */}
+      {showMockup && MockupMode && (
+        <React.Suspense fallback={null}>
+          <MockupMode onClose={() => setShowMockup(false)} />
+        </React.Suspense>
+      )}
     </>
   );
 }

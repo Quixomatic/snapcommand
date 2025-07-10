@@ -161,7 +161,7 @@ export default function CapturePreview({ imageUrl, onClose }: CapturePreviewProp
 
   return (
     <Dialog open onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-hidden flex flex-col">
+      <DialogContent data-mockup-target="preview-modal" className="max-w-4xl max-h-[90vh] overflow-hidden flex flex-col">
         <DialogHeader className="flex-shrink-0">
           <div className="flex items-center justify-between">
             <DialogTitle className="text-lg font-semibold">Screenshot Preview</DialogTitle>

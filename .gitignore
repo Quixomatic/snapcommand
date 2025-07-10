@@ -48,3 +48,7 @@ Thumbs.db
 *.pem
 
 package-lock.json
+
+# Old icon versions
+public/alt/
+public/old/

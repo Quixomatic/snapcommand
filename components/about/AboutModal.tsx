@@ -24,7 +24,7 @@ export default function AboutModal({ open, onClose, onBackToMenu }: AboutModalPr
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="max-w-md">
+      <DialogContent data-mockup-target="about-modal" className="max-w-md">
         <DialogHeader className="flex flex-row items-center gap-3 space-y-0">
           <Button
             variant="ghost"

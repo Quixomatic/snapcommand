@@ -134,7 +134,7 @@ export default function CommandMenu({
 
   return (
     <Dialog open onOpenChange={onClose}>
-      <DialogContent className="p-0 max-w-2xl overflow-hidden">
+      <DialogContent data-mockup-target="command-menu" className="p-0 max-w-2xl overflow-hidden">
         <DialogTitle className="sr-only">SnapCommand Menu</DialogTitle>
         <Command className="rounded-lg shadow-lg">
           <div className="flex items-center border-b px-3">
