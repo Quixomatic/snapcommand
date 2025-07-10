@@ -16,6 +16,8 @@ export interface Preferences {
   // File settings
   filenameTemplate: string;
   
+  // Advanced settings
+  corsProxy: string; // CORS proxy URL (empty = disabled)
   
   // History settings
   historyLimit: number; // Number of screenshots to keep in history
@@ -38,6 +40,7 @@ const defaultPreferences: Preferences = {
   autoDownload: true,
   showPreview: true,
   filenameTemplate: 'snapcommand-{domain}-{timestamp}',
+  corsProxy: '', // Empty by default - no CORS proxy
   historyLimit: 10,
   keybindings: {
     'toggle-menu': { keys: 'ctrl+shift+s', enabled: true },

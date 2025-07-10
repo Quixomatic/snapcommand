@@ -10,7 +10,7 @@ import { Separator } from '@/components/ui/separator';
 import { usePreferences } from '@/lib/storage/preferences';
 import { clearHistory } from '@/lib/storage/capture-history';
 import { useToast } from '@/components/ui/use-toast';
-import { Settings, Image, Download, Copy, Eye, Palette, ArrowLeft, History, Trash2 } from 'lucide-react';
+import { Settings, Image, Download, Copy, Eye, Palette, ArrowLeft, History, Trash2, Cog } from 'lucide-react';
 
 interface PreferencesModalProps {
   open: boolean;
@@ -237,6 +237,29 @@ export default function PreferencesModal({ open, onClose, onBackToMenu }: Prefer
               />
               <p className="text-xs text-muted-foreground">
                 Available variables: {'{domain}'}, {'{timestamp}'}, {'{title}'}
+              </p>
+            </div>
+          </div>
+
+          <Separator />
+
+          {/* Advanced Settings */}
+          <div className="space-y-4">
+            <div className="flex items-center gap-2">
+              <Cog className="h-4 w-4" />
+              <h3 className="font-medium">Advanced Settings</h3>
+            </div>
+
+            <div className="space-y-2">
+              <Label>CORS Proxy URL</Label>
+              <Input
+                value={preferences.corsProxy}
+                onChange={(e) => updatePreferences({ corsProxy: e.target.value })}
+                placeholder="https://corsproxy.io/?url="
+                className="font-mono"
+              />
+              <p className="text-xs text-muted-foreground">
+                Optional proxy for cross-origin images. Leave empty to disable.
               </p>
             </div>
           </div>

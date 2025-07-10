@@ -273,9 +273,9 @@ function App() {
             // Call the capture handler with fresh preferences
             setTimeout(async () => {
               const snapdom = (await import("@zumer/snapdom")).snapdom;
-              const result = await snapdom(document.documentElement, {
-                scale: currentPrefs.scale
-              });
+              const result = await snapdom(document.documentElement, 
+                getSnapdomOptions(currentPrefs.scale, currentPrefs.corsProxy)
+              );
               const dataUrl = await result.toPng();
               
               // Use fresh preferences for processing
@@ -454,9 +454,9 @@ function App() {
             loadPreferences().then(currentPrefs => {
               setTimeout(async () => {
                 const snapdom = (await import("@zumer/snapdom")).snapdom;
-                const result = await snapdom(document.documentElement, {
-                  scale: currentPrefs.scale
-                });
+                const result = await snapdom(document.documentElement, 
+                  getSnapdomOptions(currentPrefs.scale, currentPrefs.corsProxy)
+                );
                 const dataUrl = await result.toPng();
                 
                 // Use fresh preferences for processing
@@ -534,9 +534,9 @@ function App() {
       await new Promise(resolve => setTimeout(resolve, 100));
       
       const snapdom = (await import("@zumer/snapdom")).snapdom;
-      const result = await snapdom(document.documentElement, {
-        scale: preferences.scale
-      });
+      const result = await snapdom(document.documentElement, 
+        getSnapdomOptions(preferences.scale, preferences.corsProxy)
+      );
       const dataUrl = await result.toPng();
       
       await processCapturedImage(dataUrl.src, 'fullpage');
@@ -559,9 +559,9 @@ function App() {
   const handleElementCapture = async (element: HTMLElement) => {
     try {
       const snapdom = (await import("@zumer/snapdom")).snapdom;
-      const result = await snapdom(element, {
-        scale: preferences.scale
-      });
+      const result = await snapdom(element, 
+        getSnapdomOptions(preferences.scale, preferences.corsProxy)
+      );
       const dataUrl = await result.toPng();
       
       await processCapturedImage(dataUrl.src, 'element');
@@ -574,9 +574,9 @@ function App() {
   const handleCSSCapture = async (element: HTMLElement) => {
     try {
       const snapdom = (await import("@zumer/snapdom")).snapdom;
-      const result = await snapdom(element, {
-        scale: preferences.scale
-      });
+      const result = await snapdom(element, 
+        getSnapdomOptions(preferences.scale, preferences.corsProxy)
+      );
       const dataUrl = await result.toPng();
       
       await processCapturedImage(dataUrl.src, 'css');
@@ -645,6 +645,14 @@ function App() {
       // Still show the result even if processing failed
       setCaptureResult({ imageUrl: dataUrl, format: 'png' });
     }
+  };
+
+  const getSnapdomOptions = (scale: number, corsProxy?: string) => {
+    const options: any = { scale };
+    if (corsProxy && corsProxy.trim()) {
+      options.useProxy = corsProxy;
+    }
+    return options;
   };
 
   const convertImageFormat = async (dataUrl: string, format: string, quality: number): Promise<string> => {

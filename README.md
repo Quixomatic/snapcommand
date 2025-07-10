@@ -211,6 +211,7 @@ We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.
 ### Near Term
 - [ ] Firefox support
 - [ ] Safari support (when WebExtensions API is available)
+- [ ] Two-pass CORS recovery system (automatically fix cross-origin images)
 - [ ] Enhanced annotation tools
 - [ ] Custom capture presets
 
@@ -221,6 +222,14 @@ We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.
 - [ ] Advanced editing capabilities
 
 ## 🐛 Known Issues
+
+### Cross-Origin Images
+SnapCommand uses [SnapDOM](https://github.com/zumerlab/snapdom) for high-quality DOM capture. Due to browser security restrictions, some cross-origin images (like external favicons and CDN images) may not appear in screenshots. This is a [known limitation](https://github.com/zumerlab/snapdom/blob/main/README.md#cross-origin-images) of SnapDOM.
+
+**Workarounds:**
+- **Draw Selection mode** works well as a fallback for capturing specific areas
+- Configure a CORS proxy in Advanced Settings (for power users)
+- Most page content captures perfectly - only external images are affected
 
 Check our [Issues page](https://github.com/yourusername/snapcommand/issues) for current known issues and their status.
 
