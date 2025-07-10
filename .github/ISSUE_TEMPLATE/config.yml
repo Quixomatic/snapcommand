@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 💬 General Discussion
+    url: https://github.com/yourusername/snapcommand/discussions
+    about: Ask questions, share tips, or discuss general topics about SnapCommand
+  - name: 📖 Documentation
+    url: https://github.com/yourusername/snapcommand#readme
+    about: Check the README for installation instructions, usage guides, and troubleshooting
+  - name: 🛠️ Development Setup
+    url: https://github.com/yourusername/snapcommand/blob/main/CONTRIBUTING.md
+    about: Learn how to set up a development environment and contribute to the project

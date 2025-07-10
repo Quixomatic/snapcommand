@@ -6,9 +6,7 @@ import {
   X, 
   ZoomIn, 
   ZoomOut,
-  RotateCw,
-  Edit2,
-  Share2
+  RotateCw
 } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -164,12 +162,9 @@ export default function CapturePreview({ imageUrl, onClose }: CapturePreviewProp
   return (
     <Dialog open onOpenChange={onClose}>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-hidden flex flex-col">
-        <VisuallyHidden>
-          <DialogTitle>Hidden Title</DialogTitle>
-        </VisuallyHidden>
         <DialogHeader className="flex-shrink-0">
           <div className="flex items-center justify-between">
-            <h2 className="text-lg font-semibold">Screenshot Preview</h2>
+            <DialogTitle className="text-lg font-semibold">Screenshot Preview</DialogTitle>
             <Button
               variant="ghost"
               size="icon"
@@ -275,26 +270,6 @@ export default function CapturePreview({ imageUrl, onClose }: CapturePreviewProp
 
           {/* Action buttons */}
           <div className="flex items-center justify-between pt-2">
-            <div className="flex gap-2">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => {}}
-                className="gap-2"
-              >
-                <Edit2 className="h-4 w-4" />
-                Edit
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => {}}
-                className="gap-2"
-              >
-                <Share2 className="h-4 w-4" />
-                Share
-              </Button>
-            </div>
             
             <div className="flex gap-2">
               <Button

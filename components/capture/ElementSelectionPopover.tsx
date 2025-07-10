@@ -29,19 +29,51 @@ export default function ElementSelectionPopover({
   React.useEffect(() => {
     if (targetElement) {
       const rect = targetElement.getBoundingClientRect();
+      const viewportWidth = window.innerWidth;
+      const viewportHeight = window.innerHeight;
+      
+      // Calculate optimal position for popover
+      // Use a smaller reference area for better positioning
+      let positionRect = {
+        width: Math.min(rect.width, 200), // Cap width for positioning
+        height: Math.min(rect.height, 100), // Cap height for positioning
+        top: rect.top,
+        left: rect.left,
+        right: rect.right,
+        bottom: rect.bottom,
+        x: rect.left,
+        y: rect.top,
+      };
+      
+      // Adjust position to keep popover visible
+      // If element is too wide, center the popover position area
+      if (rect.width > viewportWidth * 0.8) {
+        const centerX = rect.left + rect.width / 2;
+        positionRect.left = centerX - 100;
+        positionRect.right = centerX + 100;
+        positionRect.x = positionRect.left;
+        positionRect.width = 200;
+      }
+      
+      // If element is too tall, position near the top
+      if (rect.height > viewportHeight * 0.8) {
+        positionRect.top = Math.max(rect.top, 50);
+        positionRect.bottom = positionRect.top + 100;
+        positionRect.y = positionRect.top;
+        positionRect.height = 100;
+      }
+      
+      // Ensure the positioning area is within viewport bounds
+      positionRect.left = Math.max(10, Math.min(positionRect.left, viewportWidth - 220));
+      positionRect.top = Math.max(10, Math.min(positionRect.top, viewportHeight - 150));
+      positionRect.x = positionRect.left;
+      positionRect.y = positionRect.top;
+      positionRect.right = positionRect.left + positionRect.width;
+      positionRect.bottom = positionRect.top + positionRect.height;
       
       // Create a virtual element for positioning
       const virtual = {
-        getBoundingClientRect: () => ({
-          width: rect.width,
-          height: rect.height,
-          top: rect.top,
-          left: rect.left,
-          right: rect.right,
-          bottom: rect.bottom,
-          x: rect.left,
-          y: rect.top,
-        }),
+        getBoundingClientRect: () => positionRect,
         contextElement: targetElement,
       };
       
@@ -69,19 +101,18 @@ export default function ElementSelectionPopover({
       <PopoverContent 
         className="w-auto p-3 bg-background border shadow-lg"
         side="top"
-        align="start"
+        align="center"
         sideOffset={8}
         avoidCollisions={true}
-        collisionPadding={10}
+        collisionPadding={20}
+        collisionBoundary={document.body}
+        sticky="always"
         onOpenAutoFocus={(e) => e.preventDefault()}
       >
         <div className="flex items-center gap-1">
           {/* Navigation buttons */}
           <button
-            onClick={() => {
-              console.log('Move up clicked');
-              onMoveUp();
-            }}
+            onClick={onMoveUp}
             disabled={!canMoveUp}
             className="h-8 w-8 flex items-center justify-center rounded hover:bg-accent disabled:opacity-50 disabled:cursor-not-allowed"
             title="Move to parent element"
@@ -90,10 +121,7 @@ export default function ElementSelectionPopover({
           </button>
           
           <button
-            onClick={() => {
-              console.log('Move down clicked');
-              onMoveDown();
-            }}
+            onClick={onMoveDown}
             disabled={!canMoveDown}
             className="h-8 w-8 flex items-center justify-center rounded hover:bg-accent disabled:opacity-50 disabled:cursor-not-allowed"
             title="Move to child element"
@@ -106,10 +134,7 @@ export default function ElementSelectionPopover({
           
           {/* Action buttons */}
           <button
-            onClick={() => {
-              console.log('Confirm clicked');
-              onConfirm();
-            }}
+            onClick={onConfirm}
             className="h-8 w-8 flex items-center justify-center rounded bg-green-600 text-white hover:bg-green-700"
             title="Capture this element"
           >
@@ -117,10 +142,7 @@ export default function ElementSelectionPopover({
           </button>
           
           <button
-            onClick={() => {
-              console.log('Cancel clicked');
-              onCancel();
-            }}
+            onClick={onCancel}
             className="h-8 w-8 flex items-center justify-center rounded bg-red-600 text-white hover:bg-red-700"
             title="Cancel selection"
           >

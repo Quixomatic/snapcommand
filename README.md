@@ -1,34 +1,79 @@
 # SnapCommand
 
-A professional Chrome extension for capturing screenshots with a command menu interface.
+A powerful Chrome extension for capturing screenshots with a professional command menu interface. Built with modern web technologies for speed, reliability, and ease of use.
 
-## Features
+<!-- TODO: Add main hero screenshot/GIF showing the command menu in action -->
+![SnapCommand Demo](screenshots/hero-demo.gif)
 
-- 🎯 **Multiple Capture Modes**
-  - Visible Area - Capture the current viewport
-  - Full Page - Capture entire scrollable page using snapDOM
-  - Select Element - Interactive element picker with hover highlighting
-  - Draw Selection - Click and drag to capture any area
-  - CSS Selector - Target elements by CSS selector
-  - All Open Tabs - Batch capture visible areas
+## 🚀 Features
 
-- ⌨️ **Command Menu Interface**
-  - Quick access with Cmd/Ctrl+Shift+S
-  - Searchable commands
-  - Keyboard shortcuts for all actions
-  - Real-time settings toggles
+### 📸 **Multiple Capture Modes**
+- **Visible Area** - Capture the current viewport
+- **Full Page** - Capture entire scrollable page with high quality
+- **Select Element** - Interactive element picker with hover highlighting
+- **Draw Selection** - Click and drag to capture any rectangular area
+- **CSS Selector** - Target elements using CSS selectors
 
-- 🎨 **Advanced Features**
-  - Multiple format support (PNG, JPG, WebP)
-  - Quality settings for JPG/WebP
-  - Copy to clipboard
-  - Auto-download with smart filenames
-  - Preview with zoom and editing
-  - Capture history
-  - Dark/light theme support
+### ⌨️ **Command Menu Interface**
+- Lightning-fast access with **Ctrl+Shift+S** (or Cmd+Shift+S on Mac)
+- Searchable commands with fuzzy matching
+- Customizable keyboard shortcuts for all actions
+- Real-time settings toggles and format switching
 
-## Installation
+### 🎨 **Professional Features**
+- **Multiple formats**: PNG, JPG, WebP with quality controls
+- **Smart actions**: Copy to clipboard, auto-download, or preview
+- **Capture history** with search and management
+- **Customizable preferences** for workflow optimization
+- **Scale options** from 0.5x to 3x for different quality needs
 
+<!-- TODO: Add screenshots showing different capture modes -->
+## 📷 Screenshots
+
+### Command Menu
+<!-- TODO: Replace with actual screenshot -->
+![Command Menu](screenshots/command-menu.png)
+*The main command interface with search and quick actions*
+
+### Element Selection
+<!-- TODO: Replace with actual screenshot -->
+![Element Selection](screenshots/element-selection.png)
+*Interactive element selection with visual highlighting*
+
+### Preview Modal
+<!-- TODO: Replace with actual screenshot -->
+![Preview Modal](screenshots/preview-modal.png)
+*Screenshot preview with copy, download, and zoom controls*
+
+### Capture History
+<!-- TODO: Replace with actual screenshot -->
+![Capture History](screenshots/capture-history.png)
+*Manage and search through your screenshot history*
+
+### Settings & Preferences
+<!-- TODO: Replace with actual screenshot -->
+![Preferences](screenshots/preferences.png)
+*Comprehensive settings for customizing your workflow*
+
+## 🎬 Demo Videos
+
+<!-- TODO: Add demo GIFs showing key features -->
+### Quick Capture Workflow
+![Quick Capture](screenshots/quick-capture-demo.gif)
+*Capturing a screenshot in under 3 seconds*
+
+### Element Selection in Action
+![Element Selection Demo](screenshots/element-selection-demo.gif)
+*Selecting and capturing specific page elements*
+
+## 📦 Installation
+
+### From Chrome Web Store
+1. Visit the [Chrome Web Store page](https://chrome.google.com/webstore/detail/snapcommand/YOUR_EXTENSION_ID)
+2. Click "Add to Chrome"
+3. Start capturing with **Ctrl+Shift+S**!
+
+### For Development
 1. Clone the repository:
 ```bash
 git clone https://github.com/yourusername/snapcommand.git
@@ -38,129 +83,166 @@ cd snapcommand
 2. Install dependencies:
 ```bash
 npm install
-# or
-pnpm install
 ```
 
 3. Start development:
 ```bash
 npm run dev
-# or
-pnpm dev
 ```
 
 4. Load the extension in Chrome:
    - Open Chrome and navigate to `chrome://extensions`
-   - Enable "Developer mode"
+   - Enable "Developer mode" (top right toggle)
    - Click "Load unpacked"
    - Select the `.output/chrome-mv3` directory
 
-## Usage
+## 🎮 Usage
 
-### Keyboard Shortcuts
+### Default Keyboard Shortcuts
+All shortcuts are customizable in the preferences!
 
-- **Cmd/Ctrl+Shift+S** - Open command menu
-- **Cmd/Ctrl+Shift+V** - Capture visible area
-- **Cmd/Ctrl+Shift+F** - Capture full page
-- **Cmd/Ctrl+Shift+E** - Select element to capture
-- **Cmd/Ctrl+Shift+D** - Draw selection area
-- **Cmd/Ctrl+Shift+A** - Capture all tabs
+- **Ctrl+Shift+S** - Open command menu
+- **Ctrl+Shift+V** - Capture visible area
+- **Ctrl+Shift+F** - Capture full page
+- **Ctrl+Shift+E** - Select element to capture
+- **Ctrl+Shift+D** - Draw selection area
+- **Ctrl+Shift+C** - CSS selector mode
+- **Ctrl+1/2/3** - Switch format (PNG/JPG/WebP)
 
 ### Command Menu
-
-The command menu provides access to all features:
+The heart of SnapCommand - access everything from one interface:
 - Type to search commands
 - Use arrow keys to navigate
 - Press Enter to execute
-- Toggle settings with a single click
-- Switch formats with Cmd/Ctrl+1/2/3
+- Toggle settings instantly
+- See your current format and preferences at a glance
 
 ### Element Selection
-
-When selecting elements:
-- Move mouse to highlight elements
-- Click to capture
-- Use arrow keys for fine navigation
+Perfect for capturing specific UI components:
+- Hover to highlight elements
+- Click to select and capture
+- Use arrow keys for precise navigation
+- Confirmation dialog with parent/child navigation
 - Press Escape to cancel
 
-### Draw Selection
+### Area Selection
+Draw custom capture areas:
+- Click and drag to define the area
+- Visual feedback with measurement overlay
+- Press Escape to cancel selection
 
-For area selection:
-- Click and drag to draw rectangle
-- Hold Shift for square selection
-- Press G to toggle grid
-- Use arrow keys to adjust
-- Press Enter to capture
+## 🛠️ Development
 
-## Development
+### Tech Stack
+- **[WXT](https://wxt.dev/)** - Next-generation web extension framework
+- **React 18** - Modern UI components
+- **TypeScript** - Type safety and better DX
+- **Tailwind CSS** - Utility-first styling
+- **[shadcn/ui](https://ui.shadcn.com/)** - Beautiful, accessible components
+- **[CMDK](https://cmdk.paco.me/)** - Command menu interface
+- **[SnapDOM](https://github.com/zumerlab/snapdom)** - High-quality DOM capture
+- **[Hotkeys.js](https://github.com/jaywcjlove/hotkeys-js)** - Keyboard shortcut management
 
 ### Project Structure
-
 ```
 snapcommand/
-├── entrypoints/        # Extension entry points
-│   ├── background.ts   # Background service worker
-│   ├── content.tsx     # Content script with React UI
-│   └── popup/          # Extension popup
-├── components/         # React components
-│   ├── command-menu/   # Command menu components
-│   ├── capture/        # Capture-related components
-│   ├── ui/            # shadcn/ui components
-│   └── settings/      # Settings components
-├── lib/               # Core functionality
-│   ├── capture/       # Capture logic
-│   ├── storage/       # Preferences & history
-│   └── utils/         # Utilities
-└── styles/            # Global styles
+├── entrypoints/           # Extension entry points
+│   ├── background.ts      # Service worker (handles captures)
+│   └── content.tsx        # Main UI injected into pages
+├── components/            # React components
+│   ├── command-menu/      # Command palette
+│   ├── capture/           # Capture modes and preview
+│   ├── preferences/       # Settings management
+│   ├── history/          # Capture history
+│   └── ui/               # Reusable UI components
+├── lib/                  # Core functionality
+│   ├── capture/          # Capture logic and utilities
+│   ├── storage/          # Preferences and history storage
+│   └── utils/            # Shared utilities
+└── styles/               # Global styles and themes
 ```
 
-### Technologies Used
-
-- **WXT** - Next-gen web extension framework
-- **React** - UI components
-- **TypeScript** - Type safety
-- **Tailwind CSS** - Styling
-- **shadcn/ui** - UI component library
-- **CmdK** - Command menu
-- **snapDOM** - High-quality DOM capture
-- **Zustand** - State management
-
 ### Building for Production
-
 ```bash
-# Build for Chrome
+# Development build with hot reload
+npm run dev
+
+# Production build
 npm run build
 
-# Build for Firefox
+# Build for different browsers
+npm run build:chrome
 npm run build:firefox
 
-# Create zip for distribution
+# Create distributable zip
 npm run zip
 ```
 
-## Contributing
+### Testing
+```bash
+# Type checking
+npm run type-check
 
+# Build verification
+npm run build
+```
+
+## 🤝 Contributing
+
+We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details.
+
+### Quick Start for Contributors
 1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+2. Create a feature branch: `git checkout -b feature/amazing-feature`
+3. Make your changes and test thoroughly
+4. Commit with a clear message: `git commit -m 'Add amazing feature'`
+5. Push to your branch: `git push origin feature/amazing-feature`
+6. Open a Pull Request with a detailed description
 
-## Future Plans
+### Development Guidelines
+- Follow the existing code style and patterns
+- Add TypeScript types for new functionality
+- Test your changes across different websites
+- Update documentation for new features
+- Ensure accessibility compliance
 
-- [ ] Cloud integration (placeholder for future development)
-- [ ] Annotation tools
-- [ ] Custom presets
-- [ ] Macro recording
-- [ ] Advanced batch operations
+## 📋 Roadmap
 
-## License
+### Near Term
+- [ ] Firefox support
+- [ ] Safari support (when WebExtensions API is available)
+- [ ] Enhanced annotation tools
+- [ ] Custom capture presets
 
-MIT License - see LICENSE file for details
+### Future Considerations
+- [ ] Cloud storage integration
+- [ ] Team collaboration features
+- [ ] API for third-party integrations
+- [ ] Advanced editing capabilities
 
-## Acknowledgments
+## 🐛 Known Issues
 
-- [WXT](https://wxt.dev/) for the extension framework
-- [snapDOM](https://github.com/zumerlab/snapdom) for DOM capture
-- [CmdK](https://cmdk.paco.me/) for the command menu
-- [shadcn/ui](https://ui.shadcn.com/) for UI components
+Check our [Issues page](https://github.com/yourusername/snapcommand/issues) for current known issues and their status.
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- **[WXT](https://wxt.dev/)** for the excellent extension development framework
+- **[SnapDOM](https://github.com/zumerlab/snapdom)** for reliable DOM capture technology
+- **[CMDK](https://cmdk.paco.me/)** for the beautiful command palette
+- **[shadcn/ui](https://ui.shadcn.com/)** for the gorgeous UI component library
+- **[Radix UI](https://www.radix-ui.com/)** for accessible primitives
+
+## 💝 Support
+
+If SnapCommand helps improve your workflow, consider:
+- ⭐ Starring this repository
+- 🐛 Reporting bugs or requesting features
+- 💖 [Supporting development](https://ko-fi.com/quixomatic)
+
+---
+
+**Made with ❤️ for productivity enthusiasts**

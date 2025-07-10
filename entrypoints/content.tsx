@@ -21,13 +21,22 @@ import { keybindingManager } from "@/lib/utils/keybinding-manager";
 import { incrementScreenshotCount } from "@/lib/storage/usage-stats";
 import "@/styles/globals.css";
 
+// Filter out Radix UI DialogTitle errors since we have proper accessibility
+const originalError = console.error;
+console.error = (...args) => {
+  const message = args.join(' ');
+  if (message.includes('DialogContent') && message.includes('DialogTitle')) {
+    return; // Suppress this specific error
+  }
+  originalError.apply(console, args);
+};
+
 export default defineContentScript({
   matches: ["<all_urls>"],
   cssInjectionMode: "ui",
   runAt: "document_idle",
 
   async main(ctx) {
-    console.log("SnapCommand content script loaded");
 
     // Store UI instance and root globally to ensure React stays in shadow DOM
     let uiRoot: ReactDOM.Root | null = null;
@@ -39,7 +48,6 @@ export default defineContentScript({
       anchor: "body",
       append: "last",
       onMount: (container, shadow) => {
-        console.log("SnapCommand UI mounting, container:", container);
         
         // Ensure the shadow root handles events properly
         if (shadow) {
@@ -67,7 +75,6 @@ export default defineContentScript({
             </PortalProvider>
           </React.StrictMode>
         );
-        console.log("SnapCommand UI mounted in shadow DOM");
       },
       onRemove: () => {
         // Clean up React when UI is removed
@@ -194,7 +201,40 @@ function App() {
       handler: () => {
         const manager = (window as any).__snapcommandModalManager;
         if (manager) manager.closeAll();
-        handleCaptureVisible();
+        
+        // Get fresh preferences from storage just like format keybindings do
+        import('@/lib/storage/preferences').then(({ loadPreferences }) => {
+          loadPreferences().then(currentPrefs => {
+            // Call the capture handler with fresh preferences
+            setTimeout(async () => {
+              const response = await browser.runtime.sendMessage({
+                action: "capture-visible-area",
+              });
+              
+              // Use fresh preferences for processing
+              const dataUrl = response;
+              let processedDataUrl = dataUrl;
+              if (currentPrefs.format !== 'png') {
+                processedDataUrl = await convertImageFormat(dataUrl, currentPrefs.format, currentPrefs.quality);
+              }
+              
+              await addCaptureToHistory('visible', currentPrefs.format, processedDataUrl);
+              await incrementScreenshotCount();
+              
+              if (currentPrefs.copyToClipboard) {
+                await copyToClipboard(processedDataUrl);
+              }
+              
+              if (currentPrefs.autoDownload) {
+                await downloadImage(processedDataUrl);
+              }
+              
+              if (currentPrefs.showPreview) {
+                setCaptureResult({ imageUrl: processedDataUrl, format: currentPrefs.format });
+              }
+            }, 100);
+          });
+        });
       }
     });
     
@@ -206,7 +246,41 @@ function App() {
       handler: () => {
         const manager = (window as any).__snapcommandModalManager;
         if (manager) manager.closeAll();
-        handleCaptureFullPage();
+        
+        // Get fresh preferences from storage just like format keybindings do
+        import('@/lib/storage/preferences').then(({ loadPreferences }) => {
+          loadPreferences().then(currentPrefs => {
+            // Call the capture handler with fresh preferences
+            setTimeout(async () => {
+              const snapdom = (await import("@zumer/snapdom")).snapdom;
+              const result = await snapdom(document.documentElement, {
+                scale: currentPrefs.scale
+              });
+              const dataUrl = await result.toPng();
+              
+              // Use fresh preferences for processing
+              let processedDataUrl = dataUrl.src;
+              if (currentPrefs.format !== 'png') {
+                processedDataUrl = await convertImageFormat(dataUrl.src, currentPrefs.format, currentPrefs.quality);
+              }
+              
+              await addCaptureToHistory('fullpage', currentPrefs.format, processedDataUrl);
+              await incrementScreenshotCount();
+              
+              if (currentPrefs.copyToClipboard) {
+                await copyToClipboard(processedDataUrl);
+              }
+              
+              if (currentPrefs.autoDownload) {
+                await downloadImage(processedDataUrl);
+              }
+              
+              if (currentPrefs.showPreview) {
+                setCaptureResult({ imageUrl: processedDataUrl, format: currentPrefs.format });
+              }
+            }, 100);
+          });
+        });
       }
     });
     
@@ -317,12 +391,77 @@ function App() {
         case 'capture-visible':
           const manager1 = (window as any).__snapcommandModalManager;
           if (manager1) manager1.closeAll();
-          handleCaptureVisible();
+          
+          // Get fresh preferences from storage just like format keybindings do
+          import('@/lib/storage/preferences').then(({ loadPreferences }) => {
+            loadPreferences().then(currentPrefs => {
+              setTimeout(async () => {
+                const response = await browser.runtime.sendMessage({
+                  action: "capture-visible-area",
+                });
+                
+                // Use fresh preferences for processing
+                const dataUrl = response;
+                let processedDataUrl = dataUrl;
+                if (currentPrefs.format !== 'png') {
+                  processedDataUrl = await convertImageFormat(dataUrl, currentPrefs.format, currentPrefs.quality);
+                }
+                
+                await addCaptureToHistory('visible', currentPrefs.format, processedDataUrl);
+                await incrementScreenshotCount();
+                
+                if (currentPrefs.copyToClipboard) {
+                  await copyToClipboard(processedDataUrl);
+                }
+                
+                if (currentPrefs.autoDownload) {
+                  await downloadImage(processedDataUrl);
+                }
+                
+                if (currentPrefs.showPreview) {
+                  setCaptureResult({ imageUrl: processedDataUrl, format: currentPrefs.format });
+                }
+              }, 100);
+            });
+          });
           break;
         case 'capture-fullpage':
           const manager2 = (window as any).__snapcommandModalManager;
           if (manager2) manager2.closeAll();
-          handleCaptureFullPage();
+          
+          // Get fresh preferences from storage just like format keybindings do
+          import('@/lib/storage/preferences').then(({ loadPreferences }) => {
+            loadPreferences().then(currentPrefs => {
+              setTimeout(async () => {
+                const snapdom = (await import("@zumer/snapdom")).snapdom;
+                const result = await snapdom(document.documentElement, {
+                  scale: currentPrefs.scale
+                });
+                const dataUrl = await result.toPng();
+                
+                // Use fresh preferences for processing
+                let processedDataUrl = dataUrl.src;
+                if (currentPrefs.format !== 'png') {
+                  processedDataUrl = await convertImageFormat(dataUrl.src, currentPrefs.format, currentPrefs.quality);
+                }
+                
+                await addCaptureToHistory('fullpage', currentPrefs.format, processedDataUrl);
+                await incrementScreenshotCount();
+                
+                if (currentPrefs.copyToClipboard) {
+                  await copyToClipboard(processedDataUrl);
+                }
+                
+                if (currentPrefs.autoDownload) {
+                  await downloadImage(processedDataUrl);
+                }
+                
+                if (currentPrefs.showPreview) {
+                  setCaptureResult({ imageUrl: processedDataUrl, format: currentPrefs.format });
+                }
+              }, 100);
+            });
+          });
           break;
         case 'capture-element':
           const manager3 = (window as any).__snapcommandModalManager;

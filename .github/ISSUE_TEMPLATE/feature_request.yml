@@ -1,0 +1,178 @@
+name: ✨ Feature Request
+description: Suggest a new feature or improvement for SnapCommand
+title: "[Feature]: "
+labels: ["enhancement", "triage"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting a new feature! Please provide as much detail as possible to help us understand and evaluate your request.
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Feature Summary
+      description: A brief, clear summary of the feature you'd like to see
+      placeholder: e.g., "Add ability to capture screenshots with custom borders"
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem Description
+      description: What problem does this feature solve? What's your use case?
+      placeholder: |
+        Describe the problem you're trying to solve or the workflow you're trying to improve.
+        
+        Examples:
+        - "I need to capture multiple elements at once but currently have to do them one by one"
+        - "I want to add watermarks to my screenshots for branding purposes"
+        - "I need to capture screenshots at specific intervals for documentation"
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution
+      description: How would you like this feature to work?
+      placeholder: |
+        Describe your ideal solution in detail:
+        - How would you access this feature?
+        - What would the user interface look like?
+        - How would it integrate with existing functionality?
+        - What options or settings would be needed?
+    validations:
+      required: true
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Feature Category
+      description: What type of feature is this?
+      options:
+        - New Capture Mode
+        - User Interface Improvement
+        - Export/Format Options
+        - Keyboard Shortcuts
+        - Automation/Workflow
+        - Integration with Other Tools
+        - Performance/Quality
+        - Accessibility
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority Level
+      description: How important is this feature to your workflow?
+      options:
+        - Low (nice to have)
+        - Medium (would improve my workflow)
+        - High (essential for my use case)
+        - Critical (blocking my current workflow)
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternative Solutions
+      description: Have you considered any alternative approaches?
+      placeholder: |
+        - Other ways this problem could be solved
+        - Workarounds you're currently using
+        - How other tools handle this problem
+        - Why those alternatives aren't sufficient
+    validations:
+      required: false
+
+  - type: textarea
+    id: examples
+    attributes:
+      label: Examples and References
+      description: Any examples, mockups, or references that illustrate your idea
+      placeholder: |
+        - Links to similar features in other tools
+        - Mockups or wireframes (you can drag and drop images here)
+        - Screenshots showing the current limitation
+        - Examples of the desired output
+    validations:
+      required: false
+
+  - type: textarea
+    id: technical-considerations
+    attributes:
+      label: Technical Considerations
+      description: Any technical aspects you think should be considered?
+      placeholder: |
+        - Browser limitations you're aware of
+        - Performance considerations
+        - Compatibility requirements
+        - Security implications
+        - Integration challenges
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: Feature Scope
+      description: Which aspects of SnapCommand would this feature affect?
+      options:
+        - label: Core capture functionality
+        - label: User interface/command menu
+        - label: Image processing/formats
+        - label: Keyboard shortcuts/hotkeys
+        - label: Settings/preferences
+        - label: History/management
+        - label: Performance/optimization
+        - label: Accessibility
+        - label: Documentation
+
+  - type: dropdown
+    id: complexity
+    attributes:
+      label: Estimated Complexity
+      description: How complex do you think this feature would be to implement?
+      options:
+        - Simple (minor UI change or setting)
+        - Moderate (new functionality within existing systems)
+        - Complex (major new feature or system)
+        - Very Complex (fundamental changes to architecture)
+        - Not sure
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Any other information that would be helpful
+      placeholder: |
+        - Who else might benefit from this feature?
+        - Are there any related features that should be considered together?
+        - Any constraints or requirements we should know about?
+        - Links to relevant discussions or issues?
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Pre-submission Checklist
+      description: Please verify you've completed these steps
+      options:
+        - label: I have searched existing issues to ensure this isn't a duplicate
+          required: true
+        - label: I have clearly described the problem this feature would solve
+          required: true
+        - label: I have provided a detailed description of the proposed solution
+          required: true
+        - label: I understand this is a suggestion and may not be implemented immediately
+          required: true

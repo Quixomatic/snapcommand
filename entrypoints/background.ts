@@ -2,11 +2,9 @@ import { browser } from "wxt/browser";
 import { defineBackground } from "wxt/utils/define-background";
 
 export default defineBackground(() => {
-  console.log("Background script started");
 
   // Handle extension icon click
   browser.action.onClicked.addListener(async (tab) => {
-    console.log("Extension icon clicked", tab);
     if (!tab.id || !tab.url) return;
 
     // Check if we can inject into this page
@@ -21,7 +19,6 @@ export default defineBackground(() => {
                             url.hostname === 'chromewebstore.google.com';
 
     if (isRestrictedPage) {
-      console.log("Cannot inject content script into restricted page:", tab.url);
       // Could optionally show a notification here
       return;
     }
@@ -30,7 +27,6 @@ export default defineBackground(() => {
       // First try to send a message to check if content script is loaded
       await browser.tabs.sendMessage(tab.id, { action: "toggle-command-menu" });
     } catch (err) {
-      console.log("Content script not loaded, injecting it now");
       // If content script is not loaded, inject it first
       try {
         await browser.scripting.executeScript({
@@ -47,7 +43,6 @@ export default defineBackground(() => {
 
   // Handle keyboard commands
   browser.commands.onCommand.addListener(async (command, tab) => {
-    console.log("Command received:", command, tab);
     if (!tab?.id || !tab?.url) return;
 
     // Check if we can inject into this page
@@ -62,7 +57,6 @@ export default defineBackground(() => {
                             url.hostname === 'chromewebstore.google.com';
 
     if (isRestrictedPage) {
-      console.log("Cannot use extension on restricted page:", tab.url);
       return;
     }
 
@@ -82,7 +76,6 @@ export default defineBackground(() => {
           break;
       }
     } catch (err) {
-      console.log("Content script not loaded, injecting it now");
       // If content script is not loaded, inject it first
       try {
         await browser.scripting.executeScript({
@@ -99,7 +92,6 @@ export default defineBackground(() => {
 
   // Handle context menu
   browser.runtime.onInstalled.addListener(() => {
-    console.log("Extension installed, creating context menus");
 
     browser.contextMenus.create({
       id: "snapcommand-capture",
@@ -130,7 +122,6 @@ export default defineBackground(() => {
   });
 
   browser.contextMenus.onClicked.addListener(async (info, tab) => {
-    console.log("Context menu clicked:", info.menuItemId);
     if (!tab?.id || !tab?.url) return;
 
     // Check if we can inject into this page
@@ -145,7 +136,6 @@ export default defineBackground(() => {
                             url.hostname === 'chromewebstore.google.com';
 
     if (isRestrictedPage) {
-      console.log("Cannot use extension on restricted page:", tab.url);
       return;
     }
 
@@ -163,8 +153,7 @@ export default defineBackground(() => {
           targetElement: info.menuItemId === "snapcommand-element" 
         });
       } catch (err) {
-        console.log("Content script not loaded, injecting it now");
-        try {
+          try {
           await browser.scripting.executeScript({
             target: { tabId: tab.id },
             files: ['/content-scripts/content.js']
@@ -182,7 +171,6 @@ export default defineBackground(() => {
 
   // Handle messages from content script
   browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
-    console.log("Message received in background:", message);
 
     if (message.action === "capture-visible-area") {
       captureVisibleTab()
@@ -212,7 +200,6 @@ export default defineBackground(() => {
     return false;
   });
 
-  console.log("Background script setup complete");
 });
 
 async function captureVisibleTab(): Promise<string> {

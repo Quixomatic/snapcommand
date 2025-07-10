@@ -1,0 +1,162 @@
+name: 🐛 Bug Report
+description: Report a bug or issue with SnapCommand
+title: "[Bug]: "
+labels: ["bug", "triage"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug! Please fill out the information below to help us diagnose and fix the issue quickly.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      description: A clear and concise description of what the bug is.
+      placeholder: Describe what happened and what you expected to happen instead.
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to Reproduce
+      description: Detailed steps to reproduce the behavior
+      placeholder: |
+        1. Go to '...'
+        2. Click on '...'
+        3. Scroll down to '...'
+        4. See error
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: What you expected to happen
+      placeholder: Describe what should have happened instead
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Behavior
+      description: What actually happened
+      placeholder: Describe what actually happened, including any error messages
+    validations:
+      required: true
+
+  - type: input
+    id: website
+    attributes:
+      label: Website URL
+      description: The website where the bug occurred (if applicable)
+      placeholder: https://example.com
+    validations:
+      required: false
+
+  - type: dropdown
+    id: capture-mode
+    attributes:
+      label: Capture Mode
+      description: Which capture mode were you using when the bug occurred?
+      options:
+        - Not applicable
+        - Visible Area
+        - Full Page
+        - Select Element
+        - Draw Selection
+        - CSS Selector
+        - Command Menu
+        - Preferences
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: chrome-version
+    attributes:
+      label: Chrome Version
+      description: Your Chrome browser version (found in chrome://version)
+      placeholder: e.g., 121.0.6167.85
+    validations:
+      required: true
+
+  - type: input
+    id: extension-version
+    attributes:
+      label: Extension Version
+      description: SnapCommand extension version (found in chrome://extensions)
+      placeholder: e.g., 1.2.3
+    validations:
+      required: true
+
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating System
+      description: What operating system are you using?
+      options:
+        - Windows
+        - macOS
+        - Linux
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: console-errors
+    attributes:
+      label: Console Errors
+      description: Any errors or warnings in the browser console (F12 → Console tab)
+      placeholder: |
+        Paste any error messages here. If none, write "No console errors"
+        
+        To check:
+        1. Press F12 to open Developer Tools
+        2. Go to Console tab
+        3. Reproduce the bug
+        4. Copy any error messages
+    validations:
+      required: false
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots
+      description: Add screenshots to help explain the problem
+      placeholder: Drag and drop images here or paste them directly
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Any other information that might be helpful
+      placeholder: |
+        - Does this happen on all websites or specific ones?
+        - Did this work before? When did it start failing?
+        - Any workarounds you've found?
+        - Other extensions that might interfere?
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Pre-submission Checklist
+      description: Please verify you've completed these steps
+      options:
+        - label: I have searched existing issues to ensure this isn't a duplicate
+          required: true
+        - label: I have provided clear steps to reproduce the issue
+          required: true
+        - label: I have included my Chrome and extension versions
+          required: true
+        - label: I have checked the browser console for errors
+          required: true
