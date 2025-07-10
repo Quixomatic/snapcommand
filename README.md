@@ -1,9 +1,12 @@
 # SnapCommand
 
-A powerful Chrome extension for capturing screenshots with a professional command menu interface. Built with modern web technologies for speed, reliability, and ease of use.
+![SnapCommand Hero](./assets/screenshots/hero-banner.png)
 
-<!-- TODO: Add main hero screenshot/GIF showing the command menu in action -->
-![SnapCommand Demo](screenshots/hero-demo.gif)
+**Advanced Screenshot Tool** - Capture any element, selection, or full page with precision and style.
+
+## Demo
+
+![SnapCommand Demo](./assets/screenshots/mockup-showcase.gif)
 
 ## 🚀 Features
 
